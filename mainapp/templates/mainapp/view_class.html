@@ -1,0 +1,63 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+  <html>
+  <div class="header">
+    <h1 style="white-space: nowrap;">{{ class.className }}</h1>
+    {% if IS_MY_CLASS %}
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color for {{ class.className }}</h6>
+    {% endif %}
+  </div>
+  <form action="{% url 'change_color' className=class.className %}" method="post">
+    {% csrf_token %}
+    <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}" 
+    {% if IS_MY_CLASS %} 
+    {% else %} style="pointer-events:none;" 
+    {% endif %}>
+    <button type="submit" class="hiddenButton">Save this Color</button>
+    </input>
+  </form>
+
+  <h3 style="margin:auto;width:50%;text-align:center;overflow-wrap: break-word;">
+    {{ class.description }}
+  </h3>
+
+  <div style="width:10%;text-align:right;position:absolute;font-size:.9vw;right:2%;">
+    Professor:<br>
+    <li dir='rtl'>
+    <a href="{% url 'user' user_id=professor.userId %}">{{ professor.name }}</a><br>
+    </li>
+    Class Members:<br>
+    {% for student in class_list %}
+    <li dir='rtl'>
+    <a href="{% url 'user' user_id=student.userId %}">{{ student.name }}</a><br>
+  </li>
+    {% endfor %}
+  </div>
+
+  <a href="{% url 'file_list' className=class.className %}" style="margin:auto;width:100%;">
+    <button
+      style="font-size: 1.4vw; border: none; width: 20vw; height: 4rem; background-color: rgb(135, 163, 255); color: white; border-radius:40px;margin:auto; position:absolute; top:110px;margin-left:10px;"><i
+        class='bx bx-file'></i> Files</button>
+  </a>
+  {% if IS_ASSIGNED_PROFESSOR %}
+  <a href="{% url 'add_assignment' className=class.className %}">
+    <button
+      style="font-size: 1.4vw; border: none; width: 20vw; height: 4rem; background-color: rgb(135, 163, 255); color: white; border-radius:40px;position:absolute; top:185px;margin-left:10px;"><i
+        class='bx bx-file'></i> Add an Assignment</button>
+  </a>
+  {% endif %}
+  {% if has_todo %}
+  <div style="width:50%; left: 25%;margin:auto;">
+    <h3 style="text-align:center;margin-top:100px;">Upcoming Assignments for {{class.className}}</h3>
+    <div style="position: absolute; width:50%;">
+      {{todo}}
+    </div>
+  </div>
+  {% else %}
+  <div style="top:250px; width:50%; left: 25%; text-align:center;margin:auto;">
+    <h3>No Upcoming Assignments for {{class.className}}</h3>
+  </div>
+  {% endif %}
+
+  </html>
+</div>

@@ -1,0 +1,13 @@
+{% include 'mainapp/sidebar.html' %}
+<!-- Deprecated? -->
+<div class="home-section">
+  {% block content %}
+  <h2>Upload</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="document">
+    <button type="submit">Upload</button>
+  </form>
+
+  {% endblock %}
+</div>

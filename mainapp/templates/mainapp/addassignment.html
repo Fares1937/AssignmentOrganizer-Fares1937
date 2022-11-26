@@ -1,0 +1,31 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+  <div class="header">
+    <h1 style="white-space: nowrap;">Add an Assignment</h1>
+    {% if className %}
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color for {{className}}</h6>
+    {% else %}
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color</h6>
+    {% endif %}
+  </div>
+  <form action="{% url 'change_color' className=className %}" method="post">
+    {% csrf_token %}
+    <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+    <button type="submit" class="hiddenButton">Save this Color</button>
+    </input>
+  </form>
+  <a href="{% url 'upload_schedule' className=className %}">
+    <button
+      style="font-size: 1.4vw; border: none; width: 20vw;  background-color: rgb(135, 163, 255); color: white; border-radius:40px;margin-top: 10px;margin-left:10px;"><i
+        class='bx bx-file'></i> Upload a Schedule as CSV</button>
+  </a>
+  <form action="{% url 'add_assignment' className=className %}" method="post">
+    {% csrf_token %}
+    <table class="d-flex justify-content-center p-3" style="color: black">
+      {{ form }}
+    </table>
+    <div class="d-flex justify-content-center p-3">
+      <input type="submit" value="Submit" style="border-radius: 7px; border-color: black;">
+    </div>
+  </form>
+</div>

@@ -1,0 +1,275 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+    <div class="header">
+        <h1 style="white-space: nowrap;">User Profile</h1>
+        <h6 style="white-space: nowrap;">Click to Edit Bar Color</h6>
+    </div>
+    <form action="{% url 'change_color' %}" method="post">
+        {% csrf_token %}
+        <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+        <button type="submit" class="hiddenButton">Save this Color</button>
+        </input>
+    </form>
+
+    <!-- User page template: https://bootsnipp.com/snippets/K0ZmK -->
+
+
+    <style>
+        body {
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+            overflow-x: hidden;
+        }
+
+        .emp-profile {
+            padding: 25px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-img {
+            text-align: center;
+        }
+
+        .profile-img img {
+            width: 180px;
+            /* width:100%; */
+            margin-right: 40px;
+            /* height: 100%; */
+            height: 160px;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .profile-img .file {
+            position: relative;
+            overflow: hidden;
+            bottom: 38px;
+            width: 100%;
+            border: none;
+            border-radius: 1rem;
+            font-size: 15px;
+            background: #212529b8;
+        }
+
+        .profile-img .file input {
+            position: absolute;
+            opacity: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .profile-edit-btn {
+            border: none;
+            border-radius: 1.5rem;
+            position: absolute;
+            width: max-content;
+            height: min-content;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            right: 25px;
+            top: 25px;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+        }
+
+        .proile-rating {
+            font-size: 12px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .proile-rating span {
+            color: #495057;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .profile-head .nav-tabs {
+            margin-bottom: 5%;
+        }
+
+        .profile-head .nav-tabs .nav-link {
+            font-weight: 600;
+            border: none;
+        }
+
+        .profile-head .nav-tabs .nav-link.active {
+            border: none;
+            border-bottom: 2px solid #0062cc;
+        }
+
+        .profile-work {
+            padding: 14%;
+            margin-top: -15%;
+        }
+
+        .profile-work p {
+            font-size: 12px;
+            color: #818182;
+            font-weight: 600;
+            margin-top: 10%;
+        }
+
+        .profile-work a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-work ul {
+            list-style: none;
+        }
+
+        .profile-tab label {
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .profile-tab p {
+            font-weight: 600;
+            color: #0062cc;
+            width: 100%;
+            text-align: right;
+        }
+    </style>
+    <!------ Include the above in your HEAD tag ---------->
+
+        <div style="width:900px; position:absolute; left: 0;  background-color:white; border-radius:1rem; top: 20%; padding-top:20px;height:fit-content; padding-bottom:20px;
+right: 0; 
+margin-left: auto; 
+margin-right: auto; ">
+            <form method="post" action="{% url 'change_profile_photo' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <div>
+                        <div style="position:absolute; width:100px; height:max-content; left:20px;">
+                            {% if student.profile_photo %}
+                            <img src="{{ student.profile_photo.url }}" onerror='this.src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"' style="width:100px; height:100px;object-fit: cover;width: 180px;
+                            /* width:100%; */
+                            margin-right: 40px;
+                            /* height: 100%; */
+                            height: 160px; left:20px;
+                            border-radius: 1rem;" />
+                            {% else %}
+                            <img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg" style="width:100px; height:100px;object-fit: cover;width: 180px;
+                            /* width:100%; */
+                            margin-right: 40px;
+                            /* height: 100%; */
+                            height: 160px; left:20px;
+                            border-radius: 1rem;" />
+                            {% endif %}
+                            {% if owner %}
+                            <div style="position:relative;border-radius: 1rem;
+                            position: absolute;
+                            width: 180px;
+                            height: min-content;
+                            text-align:center;
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                            font-weight: 600;
+                            color: #6c757d;
+                            background: #212529b8;top:120px;">
+                            <div style="position:relative; width:100%;border: none;text-align: center;">
+                                Change Photo
+                                <input type="file" name="file" onchange="this.form.submit();" accept="image/png, image/jpeg" style="
+                                z-index:9999;position:absolute;bottom:0; left:0;top:0;opacity:0;
+            overflow: hidden;
+            width: 100%;
+            border: none;
+            border-radius: 1rem;
+            font-size: 15px;">
+                            </div>
+                            </div>
+                            {% else %}
+                            <div style="position:relative;border-radius: 1rem;
+                            position: absolute;
+                            width: 180px;
+                            height: min-content;
+                            text-align:center;
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                            font-weight: 600;
+                            color: #6c757d;
+                            background: #212529b8;top:120px;
+                            opacity:0;">
+                            <div style="position:relative; width:100%;border: none;text-align: center;">
+                                Change Photo
+                                <div style="
+                                z-index:9999;position:absolute;bottom:0; left:0;top:0;opacity:0;
+            overflow: hidden;
+            width: 100%;
+            border: none;
+            border-radius: 1rem;
+            font-size: 15px;">
+                            </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="position:absolute; left:220px;">
+                            <h5>
+                                {{ student.name }}
+                            </h5>
+                            <h6 style="color: #0062cc;">
+                                {{ student.mood }}
+                            </h6>
+                        </div>
+                    </div>
+                    <div>
+                        {% if owner %}
+                        <a href="{% url 'edit_profile' %}">
+                            <button type="button" class="profile-edit-btn" name="btnAddMore">Edit Profile</button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div class="container" style="float: left; text-align:left;">
+                        <div style="width:100%">
+                            <div style="width:100%">
+                                <div style="width:180px; left:0px;position:relative;padding-top:170px;overflow-wrap:break-word;padding-left:10px;">
+                                    <p>CLASSES</p>
+                                    {% for class in student.classes %}
+                                    <a href="{% url 'view_class' className=class.className %}">{{ class.className }}</a><br />
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:100%">
+                            <div style="width:100%">
+                                <div style="width:600px; left:-80px;position:relative;top:70px;padding-left:0;text-indent:0;">
+                                    {{ description }}
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+  {% block content %}
+  <!-- <head>
+  <script type="text/javascript">
+    function searchdata()
+    {
+        var input,table, tr,td,filter,i,displaydata;
+        input=document.getElementById("searchddl");
+        filter=input.value.toUpperCase();
+        table=document.getElementById("table1");
+        tr=table.getElementByTagName("tr");
+        for(i=0;i<tr.length;i++){
+          td=tr[i].getElementByTagName("td")[1];
+          if(td){
+            displaydata =td.innerText;
+            if(displaydata.toUpperCase().indexOf(filter)>-1){
+              tr[i].stype.display="";
+            }else{
+              tr[i].stype.display="none";
+            }
+          }
+        }
+    }
+
+</script>
+</head> -->
+  <div class="header">
+    <h1 style="white-space: nowrap;">{{className}} Files</h1>
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color for {{className}}</h6>
+  </div>
+  <form action="{% url 'change_color' className=className %}" method="post">
+    {% csrf_token %}
+    <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+    <button type="submit" class="hiddenButton">Save this Color</button>
+    </input>
+  </form>
+  <p>
+    <a href="{% url 'upload_file' className=className %}">
+      <button
+        style="font-size: 1.4vw; border: none; width: 20vw; height: 4rem; background-color: rgb(135, 163, 255); color: white; border-radius:40px;margin-top: 10px;margin-left:10px;"><i
+          class='bx bx-file'></i> Upload File</button>
+    </a>
+  </p>
+  <!-- {% for obj in filter.qs %}
+        {{ obj.className }} - ${{ obj.author }}<br />
+        
+        {% endfor %} -->
+
+
+  <table class="table mb-0" id="table1">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Author</th>
+        <th>Uploaded At</th>
+        <th>Download</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for file in filter.qs%}
+      <tr>
+        <td>{{file.title}}</td>
+        <td><div style="overflow-wrap: break-word;">{{file.description}}</div></td>
+        <td>{{file.author}}</td>
+        <td>{{file.uploaded_at}}</td>
+        <td>
+          <a href="{{ file.pdf.url }}" class="btn btn-primary btn-sm" target="_blank">
+            Download File
+          </a>
+        </td>
+        <td>
+          {% if user.username == file.author%}
+          <form method="post" action="{% url 'delete_file' pk=file.pk className=className %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+  {% endblock %}
+</div>

@@ -1,0 +1,44 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+    <div class="header">
+        <h1 style="white-space: nowrap;">Upload a Schedule for {{ className }}</h1>
+        <h6 style="white-space: nowrap;">Click to Edit Bar Color for {{ className }}</h6>
+    </div>
+    <form action="{% url 'change_color' className=className %}" method="post">
+        {% csrf_token %}
+        <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+        <button type="submit" class="hiddenButton">Save this Color</button>
+        </input>
+    </form>
+    <div
+        style="font-size: 1.4vw; border: none; width: 80vw;text-align: left; border-radius:20px; background-color:antiquewhite; padding:1.5vw;margin:auto;">
+        <div>
+            Upload a Syllabus in CSV Format (.txt, and .csv both work) in the following format:
+        </div>
+        <div>
+            assignment name (ex. homework 1), YYYY-MM-DD (ex. 2021-10-20), number of hours expected to complete the
+            assignment (ex. 4)
+        </div>
+        <div>
+            assignment name (ex. homework 2), YYYY-MM-DD (ex. 2021-10-21), number of hours expected to complete the
+            assignment (ex. 10)
+        </div>
+        <div>
+            ex:<br>
+            homework 1, 2021-10-20, 4<br>
+            homework 2, 2021-10-21, 10<br>
+            homework 3, 2021-11-10, 6<br>
+        </div>
+    </div>
+    {% block content %}
+    <form action="{% url 'upload_schedule' className=className %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="d-flex justify-content-center p-3" style="color: black">
+            {{ form }}
+        </table>
+        <div class="d-flex justify-content-center p-3">
+            <input type="submit" value="Submit" style="border-radius: 7px; border-color: black;">
+        </div>
+    </form>
+    {% endblock %}
+</div>

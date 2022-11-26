@@ -1,0 +1,22 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+  <div class="header">
+    <h1 style="white-space: nowrap;">Create a Class</h1>
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color</h6>
+  </div>
+  <form action="{% url 'change_color' %}" method="post">
+    {% csrf_token %}
+    <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+    <button type="submit" class="hiddenButton">Save this Color</button>
+    </input>
+  </form>
+  <form action="{% url 'create_class' %}" method="post">
+    {% csrf_token %}
+    <table class="d-flex justify-content-center p-3" style="color: black">
+      {{ form }}
+    </table>
+    <div class="d-flex justify-content-center p-3">
+      <input type="submit" value="Submit" style="border-radius: 7px; border-color: black;">
+    </div>
+  </form>
+</div>

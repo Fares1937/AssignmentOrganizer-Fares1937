@@ -1,0 +1,134 @@
+{% include 'mainapp/sidebar.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% load socialaccount %}
+<!-- reference: https://www.w3schools.com/w3css/ -->
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+  body,
+  html {
+    height: 100%;
+    line-height: 1.8;
+  }
+
+  /* Full height image header */
+  .bgimg-1 {
+    background-position: center;
+    background-size: cover;
+    background-image: linear-gradient(purple, blue, grey);
+    min-height: 100%;
+  }
+
+  .w3-bar .w3-button {
+    padding: 16px;
+  }
+</style>
+
+<div class="home-section">
+  <html>
+
+  <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-left w3-text-white" style="padding:48px">
+      {% if user.is_authenticated %}
+      <h3 style="position:absolute; top:-20px;">Welcome {{ student.name }}</h3>
+      <div style="position:absolute; top:20px;"><a href="{% url 'user' %}">View Profile</a></div>
+      {% endif %}
+      {% if ERR_NOT_LOGGED_IN %}
+      <h3 style="color:rgb(255, 27, 27); position:absolute; top: 0; font-weight:bold;">Please Log in to use this
+        Feature</h3>
+      {% endif %}
+      <span class="w3-jumbo w3-hide-small">Assignment Organizer</span><br>
+      <span class="w3-xxlarge w3-hide-large w3-hide-medium">Assignment Organizer</span><br>
+      <span class="w3-large">Start your day right.</span>
+      <p>
+        {% if user.is_authenticated %}
+        <i>
+          <a href="{% url 'logout' %}">
+            <i class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Log
+              Out</i>
+          </a>
+        </i>
+        {% else %}
+        <i>
+          <a href="{% provider_login_url 'google' %}">
+            <i class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Log
+              In</i>
+          </a></i>
+        {% endif %}
+      </p>
+    </div>
+    <div
+      style="margin:auto; text-align: center; color:rgb(182, 182, 182); bottom:80px; position:absolute;width:100%;font-size:120px;">
+      <i class='bx bx-chevrons-down'></i>
+    </div>
+    <div
+      style="margin:auto; text-align: center; color:rgb(182, 182, 182); bottom:30px; position:absolute;width:100%;font-size:30px;">
+      Scroll Down for More Info
+    </div>
+  </header>
+
+  <!-- Body Section -->
+  <div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
+
+    <body>
+      <!-- Introduction Section -->
+      <h2 class="w3-center">Welcome to Assignment Organizer</h2>
+      <br>
+      <h4 style="border-radius:10px; width:70%; margin: auto;text-align:center;margin-bottom:10px;">
+        With this application, our users can join classes created by professors. In these classes, students and
+        professors can upload and download files associated with each class to aid a cooperative environment. Professors
+        can upload events for their classes, including an estimated time of completion, and students can see these
+        assignments on each class page in list form, here on the homepage all together, or in the calendar in a clean
+        calendar format. Students can even upload their own personal events to keep track of their own personal tasks.
+      </h4>
+      <h4 style="border-radius:10px; width:50%;left:25%;text-align:center;margin: auto;margin-bottom:100px;">
+        We hope you enjoy using our assignment organizer!</h4>
+
+      {% if user.is_authenticated %}
+      <h3 style="width:50%;left:25%; text-align:center;margin: auto;margin-bottom:10px;">Here are your upcoming tasks:
+      </h3>
+      {% if has_todo %}
+      <div style="width:50%;left:25%; margin: auto;margin-bottom:100px;">
+        {{todo}}
+      </div>
+      {% else %}
+      <div style="width:50%;left:25%; text-align:center;margin: auto;margin-bottom:200px;">
+        No Upcoming Assignments
+      </div>
+      {% endif %}
+      {% endif %}
+
+      <!-- Contact Section -->
+      <br></br>
+      <h2 class="w3-center">CONTACT</h2>
+      <div style="margin-top:48px">
+        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +1 484-639-5490</p>
+        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: a21assignmentorganizer@gmail.com</p>
+        <br>
+        <!-- Footer -->
+    </body>
+    <footer class="w3-center w3-black w3-padding-64">
+      <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the
+        top</a><br><br><br>
+      <p>Assignment Organizer</p>
+    </footer>
+
+  </html>
+</div>

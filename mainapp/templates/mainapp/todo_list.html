@@ -1,0 +1,31 @@
+{% include 'mainapp/sidebar.html' %}
+<div class="home-section">
+    <div class="header">
+        <h1 style="white-space: nowrap;">All Assignments</h1>
+        <h6 style="white-space: nowrap;">Click to Edit Bar Color</h6>
+    </div>
+    <form action="{% url 'change_color' %}" method="post">
+        {% csrf_token %}
+        <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+        <button type="submit" class="hiddenButton">Save this Color</button>
+        </input>
+    </form>
+
+    <a href="{% url 'add_assignment' %}">
+        <button
+            style="font-size: 1.4vw; border: none; width: 20vw; height: 4rem; background-color: rgb(135, 163, 255); color: white; border-radius:40px;margin-top: 10px;margin-left:10px;"><i
+                class='bx bx-plus'></i> Create an Assignment</button>
+    </a>
+
+
+    {% if has_todo %}
+    <div>
+        <h3 style="width:50%;left:25%; text-align:center;margin: auto;margin-bottom:10px;">Upcoming Assignments</h3>
+        <div style="width:50%;left:25%; margin: auto; position:absolute;">
+            {{todo}}
+        </div>
+    </div>
+    {% else %}
+    <h3 style="width:50%;left:25%; text-align:center;margin: auto;margin-bottom:10px;">No Upcoming Assignments</h3>
+    {% endif %}
+</div>

@@ -1,0 +1,94 @@
+{% include 'mainapp/sidebar.html' %}
+
+<!-- https://www.geeksforgeeks.org/how-to-get-circular-buttons-in-bootstrap-4/ -->
+<div class="home-section">
+
+  <style type="text/css">
+    .xyz {
+      background-size: auto;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .btn-circle.btn-sm {
+      width: 30px;
+      height: 30px;
+      padding: 6px 0px;
+      border-radius: 15px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .btn-circle.btn-md {
+      width: 50px;
+      height: 50px;
+      padding: 7px 10px;
+      border-radius: 25px;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .btn-circle.btn-xl {
+      width: 70px;
+      height: 70px;
+      padding: 10px 16px;
+      border-radius: 35px;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+  <html>
+
+  <div class="header">
+    <h1 style="white-space: nowrap;">All Classes</h1>
+    <h6 style="white-space: nowrap;">Click to Edit Bar Color</h6>
+  </div>
+  <form action="{% url 'change_color' %}" method="post">
+    {% csrf_token %}
+    <input onclick="colorChosen()" type="color" name="colorpicker" value="{{ CLASS_COLOR }}">
+    <button type="submit" class="hiddenButton">Save this Color</button>
+    </input>
+  </form>
+
+  <html>
+  {% for class in my_classes %}
+  <form action="{% url 'remove_classes' className=class.className %}" method="post">
+    {% csrf_token %}
+    <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+    <div class="card" style="width: 18rem; float: left; height: 14rem;">
+      <div class="card-body">
+        <button type="submit" class="btn btn-danger btn-circle btn-sm" style='float:right;'><i class='bx bx-trash'
+            style="cursor: pointer;"></i></button>
+        <a href="{% url 'view_class' className=class.className %}">
+          <h5 class="card-title">{{ class.className }}</h5>
+        </a>
+        <p class="card-text" style="display: -webkit-box;
+        max-width: 200px;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;">{{ class.description }}</p>
+      </div>
+    </div>
+  </form>
+  {% endfor %}
+  {% for class in class_list %}
+  <form action="{% url 'add_classes' className=class.className %}" method="post">
+    {% csrf_token %}
+    <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+    <div class="card" style="width: 18rem; float: left; height: 14rem;">
+      <div class="card-body">
+        <button type="submit" class="btn btn-success btn-circle btn-sm" style='float:right;'><i class='bx bx-plus'
+            style="cursor: pointer;"></i></button>
+        <a href="{% url 'view_class' className=class.className %}">
+          <h5 class="card-title">{{ class.className }}</h5>
+        </a>
+        <p class="card-text">{{ class.description }}</p>
+      </div>
+    </div>
+  </form>
+  {% endfor %}
+
+  </html>
+
+  </html>
+</div>
